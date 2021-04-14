@@ -1,24 +1,43 @@
 <html>
   <head></head>
   <body>
-    <form>
-      <p>Name: <input placeholder="name" name="ad" [(ngModel)]="item.name"/>
-      </p>
+    <div [style.margin]="'auto'" [style.width]="'40%'">
+      <h1> {{getTodoName}} </h1>
+      <form [ngClass]="'formClass'">
+        <input type="text" #userName />
+        <button (click)="addUser(userName.value); userName.value=''"> addUser </button>
+      </form>
+      <div [ngStyle]="{'width':'100%','margin':'10px 0'}">
+          <input  [ngStyle]="{'width':'17px','height':'17px'}"
+                  type="checkbox" [(ngModel)] = "showAllUser"/>
+          <strong [ngStyle]="{'font-size':'20px'}">Butun istifadecileri goster</strong>
+      </div>
 
-      <p>SName: <input placeholder="sname" name="soyad" [(ngModel)]="item.sname" />
-      </p>
-      <button type="submit"  (click)="saveData()"> save </button>
-    </form>
+      <table *ngIf="getItems" [ngStyle]=" {'border':'3px solid gray','border-collapse': 'collapse'} ">
+        <thead >
+          <th>Name</th>
+          <th>action</th>
+          <th>Istifadeci listesi</th>
+        </thead>
+        <tbody *ngFor="let item of getItems">
+          <td>{{item.userName}}</td>
 
-    <table *ngIf="data.length>0" >
-      <thead>
-        <th>Name</th>
-        <th>SName</th>
-      </thead>
-      <tbody *ngFor="let d of data">
-        <td>{{d.name}}</td>
-        <td>{{d.sname}}</td>
-      </tbody>
-    </table>
+          <td>
+            <input type="checkbox" [(ngModel)] = "item.action" />
+          </td>
+
+          <td [ngSwitch] = "item.action">
+            <span *ngSwitchCase="true">
+              Bele User Var
+            </span>
+
+            <span *ngSwitchCase="false">
+              Bele User yoxdur
+            </span>
+          </td>
+
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>
